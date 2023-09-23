@@ -1,5 +1,7 @@
-.film-btns button{
-    width: 100%;
+.film-btns a{
+    display: inline-block;
+    text-align: center;
+    width: 90%;
     margin-bottom: 15px;
     padding: 7px 10px;
     border: none;
@@ -7,10 +9,10 @@
     font-size: 14px;
     cursor: pointer;
 }
-.film-btns button:first-child{
+.film-btns a:first-child{
     background-color: yellow;
 }
-.film-btns button:last-child{
+.film-btns a:last-child{
     background-color: red;
     color: #fff;
 }
