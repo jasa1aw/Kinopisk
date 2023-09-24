@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const Genres = require('../Genres/Genres')
 
-router.get('/', (req, res) => {
-    res.render('index')
+router.get('/', async(req, res) => {
+    const allGenres = await Genres.find()
+    res.render('index', {genres: allGenres})
 })
 router.get('/login', (req, res) => {
     res.render('login')
@@ -16,10 +18,12 @@ router.get('/profile', (req, res) => {
 router.get('/admin', (req, res) => {
     res.render('adminProfile')
 })
-router.get('/new', (req, res) => {
-    res.render('newFilm')
+router.get('/new', async(req, res) => {
+    const allGenres = await Genres.find()
+    res.render('newFilm', {genres: allGenres})
 })
-router.get('/edit', (req, res) => {
-    res.render('editFilm')
+router.get('/edit', async(req, res) => {
+    const allGenres = await Genres.find()
+    res.render('editFilm', {genres: allGenres})
 })
 module.exports = router
