@@ -33,8 +33,9 @@
                 <fieldset class="fieldset">
                     <label for="">Страна выпуска</label>
                     <select name="country" id="">
-                        <option value="">Казахстан</option>
-                        <option value="">США</option>
+                        <% countries.forEach(country => {%>
+                            <option value=""><%= country.name %></option>
+                        <%})%>
                     </select>
                 </fieldset>
                 <fieldset class="fieldset">
