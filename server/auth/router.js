@@ -5,4 +5,4 @@ const {signUp} = require('./controller');
 router.post('/api/signup', signUp)
 
 
-module.exports = router
+module.exports = router;
