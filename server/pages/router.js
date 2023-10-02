@@ -19,12 +19,14 @@ router.get('/profile/:id', async(req, res) => {
     const user = await User.findById(req.params.id)
     console.log(user.id);
     console.log(req.user.id);
-    user 
-    ? res.render('profile', {user: user, genres: allGenres, loginUser: req.user}) 
-    : res.redirect('/not-found');
+    if(user){
+        res.render('profile', {user: user, genres: allGenres, loginUser: req.user}) 
+    }
 })
-router.get('/admin', (req, res) => {
-    res.render('adminProfile', {user: req.user ? req.user : {}})
+router.get('/admin/:id', async(req, res) => {
+    const allGenres = await Genres.find()
+    const user = await User.findById(req.params.id)
+    res.render('adminProfile', {user: user, genres: allGenres, loginUser: req.user})
 })
 router.get('/new', async(req, res) => {
     const allGenres = await Genres.find()
