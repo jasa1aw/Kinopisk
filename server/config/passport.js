@@ -6,7 +6,7 @@ const LocalStrategy = require('passport-local');
 
 passport.use(new LocalStrategy(
     {
-    usernameField: 'email'
+        usernameField: 'email'
     },
     function(email, password, done){
         User.findOne({email})
