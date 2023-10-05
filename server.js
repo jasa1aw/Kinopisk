@@ -8,7 +8,7 @@ const app = express()
 require('./server/config/db')
 require('./server/config/passport')
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded())
 app.use(session({
     name: 'kinopoisk.session',
@@ -28,6 +28,7 @@ app.use(require('./server/pages/router'))
 app.use(require('./server/Genres/router'))
 app.use(require('./server/Country/router'))
 app.use(require('./server/auth/router'))
+app.use(require('./server/Films/router'))
 
 
 const PORT = 8000;
