@@ -37,10 +37,11 @@ router.get('/new', async(req, res) => {
     const allCountries = await Country.find()
     res.render('newFilm', {genres: allGenres, countries: allCountries, user: req.user ? req.user : {}})
 })
-router.get('/edit', async(req, res) => {
+router.get('/edit/:id', async(req, res) => {
     const allGenres = await Genres.find()
     const allCountries = await Country.find()
-    res.render('editFilm', {genres: allGenres, countries: allCountries, user: req.user ? req.user : {}})
+    const film = await Film.findById(req.params.id)
+    res.render('editFilm', {genres: allGenres, countries: allCountries, user: req.user ? req.user : {}, film: film})
 })
 router.get('/not-found', (req, res)=>{
     res.render('notFound')
