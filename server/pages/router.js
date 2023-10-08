@@ -3,10 +3,13 @@ const router = express.Router();
 const Genres = require('../Genres/Genres');
 const Country = require('../Country/country');
 const User = require("../auth/User");
+const Film = require('../Films/Film')
 
 router.get('/', async(req, res) => {
     const allGenres = await Genres.find()
-    res.render('index', {genres: allGenres, user: req.user ? req.user : {}})
+    const films = await Film.find().populate('country').populate('genre').populate('user')
+    console.log(films);
+    res.render('index', {genres: allGenres, user: req.user ? req.user : {}, films})
 })
 router.get('/login', (req, res) => {
     res.render('login', {user: req.user ? req.user : {}})
@@ -25,8 +28,9 @@ router.get('/profile/:id', async(req, res) => {
 })
 router.get('/admin/:id', async(req, res) => {
     const allGenres = await Genres.find()
+    const films = await Film.find().populate('country').populate('genre').populate('author')
     const user = await User.findById(req.params.id)
-    res.render('adminProfile', {user: user, genres: allGenres, loginUser: req.user})
+    res.render('adminProfile', {user: user, genres: allGenres, loginUser: req.user, films})
 })
 router.get('/new', async(req, res) => {
     const allGenres = await Genres.find()
