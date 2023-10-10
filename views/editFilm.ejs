@@ -8,11 +8,14 @@
     <%- include('partials/header.ejs') %>
     <div class="container">
         <div class="main">
-            <form action="" class="form">
+            <form action="/api/films/edit" method="post" class="form" enctype="multipart/form-data">
                 <h3>Редактировать фильм</h3>
+                <fieldset>
+                    <input type="hidden" value="<%= film._id %>" name="id">
+                </fieldset>
                 <fieldset class="fieldset">
                     <label for="">Добавьте картинку фильма</label>
-                    <input type="file" name="filmImg">
+                    <input type="file" name="image">
                 </fieldset>
                 <fieldset class="fieldset">
                     <label for="">Название фильма на русском</label>
