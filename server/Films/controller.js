@@ -1,4 +1,5 @@
 const Film = require('./Film');
+const User = require('../auth/User')
 const fs = require('fs');
 const path = require('path');
 
@@ -48,16 +49,6 @@ const editFilm = async(req, res) =>{
         films.image = `/img/films/${req.file.filename}`
         films.author = req.user._id
         films.save()
-        // await Film.findByIdAndUpdate(req.body.id, {
-        //     titleRus: req.body.titleRus,
-        //     titleEng: req.body.titleEng,
-        //     year: req.body.year,
-        //     time: req.body.time,
-        //     country: req.body.country,
-        //     genre: req.body.genre,
-        //     image: `/img/films/${req.file.filename}`,
-        //     author: req.user._id
-        // })
         res.status(200).redirect(`/admin/${req.user._id}`)
     }else{
         res.redirect(`/edit/${req.body.id}?error=1`)
@@ -75,4 +66,22 @@ const deleteFilm = async(req, res) =>{
     }
 }
 
-module.exports = {createFilm, editFilm, deleteFilm};
+const saveFilm = async(req, res) =>{
+    console.log(req.body);
+    if(req.user && req.body.id){
+        const user = await User.findById(req.user.id)
+        console.log(user);
+        const findFilm = user.toWatch.filter(item => item._id == req.body.id)
+        console.log(findFilm);
+        if(findFilm.length == 0){
+            user.toWatch.push(req.body.id);
+            user.save()
+            res.send('Film successfully saved')
+        }else{
+            res.send('Film already saved')
+        }
+    }
+    
+}
+
+module.exports = {createFilm, editFilm, deleteFilm, saveFilm};

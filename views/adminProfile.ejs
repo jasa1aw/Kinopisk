@@ -39,7 +39,7 @@
                             </div>
                             <div class="film-info">
                                 <a href=""><%= item.titleRus %></a>
-                                <a href=""><%= item.titleEng %>, <%= item.year %>, <%= item.titleRus %> мин.</a>
+                                <a href=""><%= item.titleEng %>, <%= item.year %>, <%= item.time %> мин.</a>
                                 <a href=""> <%= item.country.name %> , <%= item.genre.name %></a>
                                 <a href="">Автор: <%= item.author.full_name %></a>
                                 <button class="film-btn">
@@ -66,7 +66,6 @@
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js" integrity="sha512-emSwuKiMyYedRwflbZB2ghzX8Cw8fmNVgZ6yQNNXXagFzFOaQmbvQ1vmDkddHjm5AITcBIZfC7k4ShQSjgPAmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/js/deleteFilm.js"></script>
+    <%- include('partials/scripts.ejs') %>
 </body>
 </html>
