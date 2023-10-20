@@ -84,4 +84,18 @@ const saveFilm = async(req, res) =>{
     
 }
 
-module.exports = {createFilm, editFilm, deleteFilm, saveFilm};
+const deleteFromWatch = async(req, res)=>{
+    if(req.user && req.params.id){
+        const user = await User.findById(req.user.id)
+        for(let i = 0; i < user.toWatch.length; i++){
+            if(user.toWatch[i] == req.params.id){
+                user.toWatch.splice(i, 1)
+                user.save()
+                res.status(200).send('Successful deleted ')
+            }
+        }
+        // res.send('Данные не найдены')
+    }
+}
+
+module.exports = {createFilm, editFilm, deleteFilm, saveFilm, deleteFromWatch};

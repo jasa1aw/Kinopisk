@@ -94,6 +94,10 @@
 .film-btn  img{
     width: 20%;
 }
+.film-btn i{
+    font-size: 24px;
+    margin-right: 5px;
+}
 
 .card-right{
     width: 35%;
