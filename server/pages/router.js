@@ -51,8 +51,9 @@ router.get('/edit/:id', async(req, res) => {
 router.get('/not-found', (req, res)=>{
     res.render('notFound')
 })
-router.get('/detail/:id', (req, res)=>{
-    res.render('detail', {user: {}})
+router.get('/detail/:id', async(req, res)=>{
+    const film = await Film.findById(req.params.id).populate('country').populate('genre')
+    res.render('detail', { user: req.user ? req.user : {}, film: film})
 })
 
 module.exports = router;
