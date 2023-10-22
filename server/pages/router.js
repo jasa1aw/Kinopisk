@@ -7,19 +7,30 @@ const Film = require('../Films/Film')
 
 router.get('/', async(req, res) => {
     // console.log(req.query);
+    //фильтрация по жанрам
     const options = {};
     const genres = await Genres.findOne({key: req.query.genre})
     console.log(genres);
     if(genres){
         options.genre = genres._id
     }
-    console.log(options);
+    // console.log(options);
+    //страницы
+    let page = 0;
+    const limit = 3;
+    if(req.query.page && req.query.page > 0){
+        page = req.query.page
+    }
+    
+    const totalFilms = await Film.count()
+    console.log(totalFilms);
+
     const allGenres = await Genres.find()
-    const films = await Film.find(options).populate('country').populate('genre').populate('author')
+    const films = await Film.find(options).limit(limit).skip(page*limit).populate('country').populate('genre').populate('author')
     // console.log(films);
     const user = req.user ? await User.findById(req.user._id) : {}
 
-    res.render('index', {genres: allGenres, user, films})
+    res.render('index', {genres: allGenres, user, films, pages: Math.ceil(totalFilms / limit)})
 })
 router.get('/login', (req, res) => {
     res.render('login', {user: req.user ? req.user : {}})

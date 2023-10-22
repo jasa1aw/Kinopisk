@@ -56,6 +56,13 @@
                 <%     
                     })
                 %>
+                <div class="pages">
+                    <% 
+                        for(let i = 0; i < pages; i++){
+                    %>
+                            <a href="?page=<%=i%>"><%= i+1 %></a>
+                    <% } %>
+                </div>
             </div>
         </div>
     </div>
