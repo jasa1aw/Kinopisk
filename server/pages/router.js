@@ -6,9 +6,17 @@ const User = require("../auth/User");
 const Film = require('../Films/Film')
 
 router.get('/', async(req, res) => {
+    // console.log(req.query);
+    const options = {};
+    const genres = await Genres.findOne({key: req.query.genre})
+    console.log(genres);
+    if(genres){
+        options.genre = genres._id
+    }
+    console.log(options);
     const allGenres = await Genres.find()
-    const films = await Film.find().populate('country').populate('genre').populate('author')
-    console.log(films);
+    const films = await Film.find(options).populate('country').populate('genre').populate('author')
+    // console.log(films);
     const user = req.user ? await User.findById(req.user._id) : {}
 
     res.render('index', {genres: allGenres, user, films})
@@ -25,8 +33,8 @@ router.get('/profile/:id', async(req, res) => {
     .populate({path: 'toWatch', populate: {path: 'country'}})
     .populate({path: 'toWatch', populate: {path: 'genre'}})
     
-    console.log(user.id);
-    console.log(user);
+    // console.log(user.id);
+    // console.log(user);
     if(user){
         res.render('profile', {user: user, genres: allGenres, loginUser: req.user}) 
     }

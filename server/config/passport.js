@@ -10,7 +10,7 @@ passport.use(new LocalStrategy(
     },
     function(email, password, done){
         User.findOne({email}).then(user => {
-            console.log(user);
+            // console.log(user);
             if(user.password){
                 bcrypt.compare(password, user.password, function(err, result) {
                     if(err){
@@ -29,12 +29,12 @@ passport.use(new LocalStrategy(
     ))
 
 passport.serializeUser(function(user, done){
-    console.log(user);
+    // console.log(user);
     done(null, user._id)
 });
 
 passport.deserializeUser(function(id, done){
-    console.log(id);
+    // console.log(id);
     User.findById(id).then(user => {
         done(null, user)
     }).catch(e => {

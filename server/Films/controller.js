@@ -31,7 +31,7 @@ const createFilm = async(req, res) =>{
 };
 
 const editFilm = async(req, res) =>{
-    console.log(req.params);
+    // console.log(req.params);
     if(req.file && req.body.titleRus.length > 2 && 
         req.body.titleEng.length > 2 && 
         req.body.year > 0 &&
@@ -41,7 +41,7 @@ const editFilm = async(req, res) =>{
         req.body.video.length > 2)
     {
         const films = await Film.findById(req.body.id);
-        console.log(films);
+        // console.log(films);
         fs.unlinkSync(path.join(__dirname + '../../../public' + films.image))
         films.titleRus = req.body.titleRus
         films.titleEng = req.body.titleEng
@@ -71,12 +71,12 @@ const deleteFilm = async(req, res) =>{
 }
 
 const saveFilm = async(req, res) =>{
-    console.log(req.body);
+    // console.log(req.body);
     if(req.user && req.body.id){
         const user = await User.findById(req.user.id)
-        console.log(user);
+        // console.log(user);
         const findFilm = user.toWatch.filter(item => item._id == req.body.id)
-        console.log(findFilm);
+        // console.log(findFilm);
         if(findFilm.length == 0){
             user.toWatch.push(req.body.id);
             user.save()

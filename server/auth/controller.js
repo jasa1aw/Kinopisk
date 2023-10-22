@@ -9,7 +9,7 @@ const signUp = async(req, res) =>{
         req.body.re_password.length > 0
     ){
         const findUser = await User.findOne({email: req.body.email}).count()
-        console.log(findUser);
+        // console.log(findUser);
         if(findUser){
             res.redirect('/register?error=3');
         }else if(req.body.password !== req.body.re_password){
