@@ -63,7 +63,9 @@
                         if(locals.genre){
                             localsString = `genre=${locals.genre}&`
                         }
-
+                        if(locals.search){
+                            localsString = `search=${locals.search}&`    
+                        }
                         for(let i = 0; i < pages; i++){
                     %>
                             <a href="?<%= localsString %>page=<%=i%>"><%= i+1 %></a>
