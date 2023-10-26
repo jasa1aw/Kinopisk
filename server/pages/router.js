@@ -13,6 +13,7 @@ router.get('/', async(req, res) => {
     console.log(genres);
     if(genres){
         options.genre = genres._id
+        res.locals.genre = req.query.genre
     }
     // console.log(options);
     //страницы
@@ -22,8 +23,8 @@ router.get('/', async(req, res) => {
         page = req.query.page
     }
     
-    const totalFilms = await Film.count()
-    console.log(totalFilms);
+    const totalFilms = await Film.count(options)
+    // console.log(totalFilms);
 
     const allGenres = await Genres.find()
     const films = await Film.find(options).limit(limit).skip(page*limit).populate('country').populate('genre').populate('author')
