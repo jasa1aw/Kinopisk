@@ -4,6 +4,7 @@ const Genres = require('../Genres/Genres');
 const Country = require('../Country/country');
 const User = require("../auth/User");
 const Film = require('../Films/Film')
+const Rate = require('../Rates/Rates')
 
 router.get('/', async(req, res) => {
     // console.log(req.query);
@@ -63,28 +64,33 @@ router.get('/profile/:id', async(req, res) => {
     }
 })
 router.get('/admin/:id', async(req, res) => {
-    const allGenres = await Genres.find()
+    const allGenres = await Genres.find();
     const films = await Film.find().populate('country').populate('genre').populate('author')
-    const user = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id);
     res.render('adminProfile', {user: user, genres: allGenres, loginUser: req.user, films})
 })
 router.get('/new', async(req, res) => {
-    const allGenres = await Genres.find()
-    const allCountries = await Country.find()
+    const allGenres = await Genres.find();
+    const allCountries = await Country.find();
     res.render('newFilm', {genres: allGenres, countries: allCountries, user: req.user ? req.user : {}})
 })
 router.get('/edit/:id', async(req, res) => {
-    const allGenres = await Genres.find()
-    const allCountries = await Country.find()
-    const film = await Film.findById(req.params.id)
+    const allGenres = await Genres.find();
+    const allCountries = await Country.find();
+    const film = await Film.findById(req.params.id);
     res.render('editFilm', {genres: allGenres, countries: allCountries, user: req.user ? req.user : {}, film: film})
 })
 router.get('/not-found', (req, res)=>{
     res.render('notFound')
 })
 router.get('/detail/:id', async(req, res)=>{
-    const film = await Film.findById(req.params.id).populate('country').populate('genre')
-    res.render('detail', { user: req.user ? req.user : {}, film: film})
+    const rates = await Rate.find({filmId: req.params.id}).populate('authorId');
+    let averageRate = 0;
+    for(let i = 0; i < rates.length; i++){
+        averageRate += rates[i].rate
+    }
+    const film = await Film.findById(req.params.id).populate('country').populate('genre');
+    res.render('detail', { user: req.user ? req.user : {}, film: film, rates: rates, averageRate: (averageRate / rates.length).toFixed(1)});
 })
 
 module.exports = router;

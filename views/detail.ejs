@@ -43,6 +43,10 @@
                         <p>Время</p>
                         <p><%= film.time %>мин</p>
                     </div>
+                    <div class="film-details">
+                        <p>Рейтинг</p>
+                        <p><%= averageRate %></p>
+                    </div>
                 </div>
             </div>
             <% if(film.video){ %>
@@ -76,6 +80,32 @@
                         чтоб оставить комментарий
                     </p>
                 <% } %>
+                <% 
+                    if(rates){
+                    rates.forEach(rate =>{
+                %>
+                        <div class="comment">
+                            <p>Автор: <a href=""><%= rate.authorId.full_name %></a></p>
+                            <div class="comment-stars">
+                                <% 
+                                    for(let i = 0; i < 5; i++){
+                                        if(i < rate.rate){
+                                %>
+                                        <i class="fa-solid fa-star active-star"></i>
+                                <% }else{ %>    
+                                        <i class="fa-solid fa-star"></i>
+                                <% } 
+                                    }
+                                %>
+                            </div>
+                            <% if(rate.text.length > 0){%>
+                                <p>Комментарий: <%= rate.text %></p>
+                            <% } %>
+                        </div>
+                <% 
+                        })
+                    } 
+                %>
             </div>
         </div>
     </div>
