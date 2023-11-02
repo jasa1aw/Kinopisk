@@ -50,6 +50,33 @@
                     <iframe width="560" height="315" src="<%= film.video %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
             <% } %>
+            <div class="comments">
+                <h3>Коментарий</h3>
+                <% if(user && user._id){ %>
+                    <form class="add-comment-form" onSubmit="sendRate(event)">
+                        <p>Оцените фильм</p>
+                        <div class="comment-stars">
+                            <i onclick="rateFilm(1)" class="fa-solid fa-star"></i>
+                            <i onclick="rateFilm(2)" class="fa-solid fa-star"></i>
+                            <i onclick="rateFilm(3)" class="fa-solid fa-star"></i>
+                            <i onclick="rateFilm(4)" class="fa-solid fa-star"></i>
+                            <i onclick="rateFilm(5)" class="fa-solid fa-star"></i>
+                        </div>
+                        <p>Напишите комментарий</p>
+                        <textarea id="comment-text"></textarea>
+                        <input type="hidden" value="<%= user._id %>" id="comment_author">
+                        <input type="hidden" value="<%= film._id %>" id="comment_film">
+                        <button type="submit">Сохранить</button>
+                    </form>
+                <% }else{ %>
+                    <p>
+                        <a href="/login">Войдите</a>
+                        или
+                        <a href="/register">Зарегистрирутесь</a>,
+                        чтоб оставить комментарий
+                    </p>
+                <% } %>
+            </div>
         </div>
     </div>
 
