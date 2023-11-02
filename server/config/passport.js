@@ -2,8 +2,9 @@ const passport = require('passport');
 const User = require('../auth/User');
 const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local');
-
-
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+//id 1095339372016-moa1vt3s1kg790l1de1294vk545jpdqf.apps.googleusercontent.com
+//secret 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
 passport.use(new LocalStrategy(
     {
         usernameField: 'email'
@@ -27,6 +28,24 @@ passport.use(new LocalStrategy(
             })
         }
     ))
+
+    passport.use(new GoogleStrategy({
+        clientID: '1095339372016-moa1vt3s1kg790l1de1294vk545jpdqf.apps.googleusercontent.com',
+        clientSecret: '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',
+        callbackURL: "http://localhost:8000/api/auth/google",
+        scope: ['openid', 'email', 'profile']
+    },
+    async function(accessToken, refreshToken, profile, cb) {
+        const user = await User.find({googleId: profile.id })
+        const newUser = await new User({
+            googleId: profile.id,
+        }).save()
+        return cb(null, newUser);
+        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        //     return cb(err, user);
+        // });
+    }
+    ));
 
 passport.serializeUser(function(user, done){
     // console.log(user);
