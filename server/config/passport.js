@@ -36,20 +36,28 @@ passport.use(new LocalStrategy(
         scope: ['openid', 'email', 'profile']
     },
     async function(accessToken, refreshToken, profile, cb) {
-        const user = await User.find({googleId: profile.id })
-        const newUser = await new User({
-            googleId: profile.id,
-        }).save()
-        return cb(null, newUser);
-        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        //     return cb(err, user);
-        // });
+        const user = await User.findOne({googleId: profile.id })
+        try {
+            if(user){
+                return cb(null, user);
+            }else{
+                const newUser = new User({
+                    googleId: profile.id,
+                    full_name: profile.displayName,
+                    email: profile.emails[0].value,
+                })
+                await newUser.save()
+                return cb(null, newUser);
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
     ));
 
 passport.serializeUser(function(user, done){
     // console.log(user);
-    done(null, user._id)
+    done(null, user.id)
 });
 
 passport.deserializeUser(function(id, done){

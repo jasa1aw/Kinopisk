@@ -9,7 +9,7 @@ router.post('/api/signup', signUp)
 router.post('/api/signin', passport.authenticate('local', {failureRedirect: '/login?error=1'}), signIn)
 router.get('/api/logout', logOut)
 router.get('/api/auth/google', passport.authenticate('google'), (req, res) =>{
-    res.redirect('/profile/' + req.user._id)
+    res.redirect('/profile/' + req.user.id)
 })
 createAdmin()
 
